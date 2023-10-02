@@ -1,5 +1,7 @@
 #include <iostream>
 #include <conio.h>
+#include <cstdlib>
+#include <time.h>
 using namespace std;
 
 void game_menu();
@@ -8,6 +10,7 @@ void play(string, int, int);
 
 int main()
 {
+    srand(time(0));
     game_menu();
     return 0;
 }
@@ -73,29 +76,29 @@ void select_mode()
     }
 }
 
-void play (string game_mode, int range_start, int range_end)
+void play (string game_mode, int lower_limit, int upper_limit)
 {
     system("CLS");
     system("COLOR 49");
     unsigned int number_of_turns = 0;
-    int random_number = 6;
-    int chosen_number;
+    int random_number = rand()%(upper_limit-lower_limit+1)+lower_limit;
+    int input_number;
     cout<<game_mode<<endl;
-    cout<<"The number is between "<<range_start<<" and "<<range_end<<endl;
+    cout<<"The number is between "<<lower_limit<<" and "<<upper_limit<<endl;
     do
     {
         number_of_turns++;
         cout<<"Turn #"<<number_of_turns<<": Enter your guess (or enter -1 to quit game): ";
-        cin>>chosen_number;
-        if (chosen_number == -1)
+        cin>>input_number;
+        if (input_number == -1)
             break;
-        else if (chosen_number < random_number)
+        else if (input_number < random_number)
             cout<<"Your guess is lower than the actual number!"<<endl;
-        else if (chosen_number > random_number)
+        else if (input_number > random_number)
             cout<<"Your guess is higher than the actual number!"<<endl;
     }
-    while (chosen_number != random_number);
-    if (chosen_number == random_number)
+    while (input_number != random_number);
+    if (input_number == random_number)
     {
         cout<<"Congratulations! You won by guessing the correct number."<<endl
             <<"The number was "<<random_number<<endl
@@ -107,7 +110,7 @@ void play (string game_mode, int range_start, int range_end)
         {
         case 'y':
             system("CLS");
-            play(game_mode, range_start, range_end);
+            play(game_mode, lower_limit, upper_limit);
         case 'n':
             system("CLS");
             game_menu();
